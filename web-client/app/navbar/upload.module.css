@@ -1,0 +1,21 @@
+.uploadInput {
+    display: none; /* Hide the default input */
+}
+
+.uploadInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: black; 
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 0.4em;
+}
+
+.uploadButton:hover {
+    background-color: rgb(230, 230, 230);
+}
