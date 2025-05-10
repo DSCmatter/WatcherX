@@ -1,11 +1,71 @@
 # WatcherX 
 
-Description: A skeleton based around a video-sharing platform which enables users to upload, process, and share videos efficiently.
+WatcherX is a serverless video ingestion and processing system built on Google Cloud Platform (GCP). Authenticated users can upload videos, which are automatically transcoded to 360p, stored, and tracked—enabling efficient streaming and management of video assets.
+
+## Features
+
+* **Secure Uploads**: Only authenticated users can request signed URLs for uploading raw videos.
+* **Serverless Architecture**: Utilizes Cloud Functions, Pub/Sub, Cloud Run, Cloud Storage, and Firestore.
+* **Automated Transcoding**: Videos are transcoded to 360p using `ffmpeg` in Cloud Run.
+* **Scalable**: Auto-scaling Cloud Run workers process videos in parallel.
+* **Simple Access**: Processed videos are publicly accessible from Cloud Storage.
+* **Metadata Tracking**: Processing status and metadata stored in Firestore.
+
+## Architecture Diagram
 
 > [!NOTE]
 > Frontend is done solely for authentication purposes, full use of web-client is not performed...yet.
 
 ![Architecture](./archi.png)
+
+```
+[Authenticated User]
+        |
+        v
+gRPC/HTTPS Request (signed URL)
+  Cloud Functions
+        |
+        v
+generated Signed URL          
+        |
+        v            Pub/Sub → Cloud Run Worker → Firestore
+ Raw Bucket → [User Upload]  → Video Transcoding → Processed Bucket
+```
+
+### Prerequisites
+
+* [Google Cloud SDK](https://cloud.google.com/sdk/docs) (`gcloud` and `gsutil`)
+* Node.js (>=14.x)
+* `ffmpeg` installed
+* A GCP project with billing enabled
+
+
+## Project Structure
+
+```
+WatcherX/
+├── functions/            # Cloud Functions code (signed URL)
+├── worker/               # Cloud Run worker code (ffmpeg processing)
+├── .env.example          # Environment variable template
+├── README.md             # This file
+└── LICENSE
+```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request:
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature-name`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature-name`)
+5. Open a pull request
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
 
 ## Detailed description: 
 
